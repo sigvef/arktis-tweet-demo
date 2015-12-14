@@ -137,7 +137,7 @@
         function replaceIframe(code) {
           var iframe = document.createElement('iframe');
           iframe.sandbox = 'allow-scripts';
-          iframe.src = ('data:text/html;charset=utf-8,' +
+          var iframeContent = encodeURIComponent(
                         '<!DOCTYPE html>' +
                         '<head>' +
                         '<style>' +
@@ -172,6 +172,7 @@
                         '};' +
                         'loop();' +
                         '</scr' + 'ipt>');
+          iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
           var container = document.querySelector('#iframe-container');
           container.innerHTML = '';
           container.appendChild(iframe);
