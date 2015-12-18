@@ -111,14 +111,26 @@
     <script>
       (function() {
         var prefix = '/t/';
-        var code = decodeURI(window.location.pathname.slice(prefix.length));
-        if(atob(code).length > 140) {
+        var isProd = window.location.pathname.indexOf(prefix) !== -1;
+        var base64Code = window.location.hash.replace('#', '');
+        if (isProd) {
+          base64Code = decodeURI(window.location.pathname.slice(prefix.length));
+        }
+        var code = '';
+        try {
+          code = atob(base64Code);
+        }
+        catch (err) {
+          console.error('Failed to parse code from url');
+        }
+        if (code.length > 140) {
           alert('code too long, sorry!');
           return;
         }
+
         var editor = document.querySelector('#editor');
         var ccd = document.querySelector('#character-count-display');
-        editor.value = atob(code);
+        editor.value = code;
         var oldCode = editor.value;
         replaceIframe(editor.value);
         editor.size = Math.max(editor.value.length, 1);
@@ -131,7 +143,11 @@
           ccd.innerText = editor.value.length;
           replaceIframe(editor.value);
           oldCode = editor.value;
-          window.history.replaceState('', '', prefix + btoa(oldCode));
+          if (isProd) {
+            window.history.replaceState('', '', prefix + btoa(oldCode));
+          } else {
+            window.location.hash = '#' + btoa(oldCode);
+          }
         });
 
         function replaceIframe(code) {
