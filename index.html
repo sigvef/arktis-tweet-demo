@@ -94,6 +94,7 @@
          * S: Shorthand for Math.sin.
          * C: Shorthand for Math.cos.
          * T: Shorthand for Math.tan.
+         * L: Shorthand for Math.log.
          * R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
          * c: A 1920x1080 canvas.
          * x: A 2D context for that canvas. */
@@ -157,6 +158,7 @@
                         'var S = Math.sin;' +
                         'var C = Math.cos;' +
                         'var T = Math.tan;' +
+                        'var L = Math.log;' +
                         'var R = function(r,g,b,a) {' +
                           'a = a === undefined ? 1 : a;' +
                           'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
