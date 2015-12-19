@@ -108,17 +108,18 @@
       } // (<span id=character-count-display></span>/140)
       </code>
     </div>
+    <script src="/unibabel.js"></script>
     <script>
       (function() {
         var prefix = '/t/';
         var code = decodeURI(window.location.pathname.slice(prefix.length));
-        if(atob(code).length > 140) {
+        if(Unibabel.base64ToUtf8(code).length > 140) {
           alert('code too long, sorry!');
           return;
         }
         var editor = document.querySelector('#editor');
         var ccd = document.querySelector('#character-count-display');
-        editor.value = atob(code);
+        editor.value = Unibabel.base64ToUtf8(code);
         var oldCode = editor.value;
         replaceIframe(editor.value);
         editor.size = Math.max(editor.value.length, 1);
@@ -131,7 +132,7 @@
           ccd.innerText = editor.value.length;
           replaceIframe(editor.value);
           oldCode = editor.value;
-          window.history.replaceState('', '', prefix + btoa(oldCode));
+          window.history.replaceState('', '', prefix + Unibabel.utf8ToBase64(oldCode));
         });
 
         function replaceIframe(code) {
